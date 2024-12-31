@@ -14,7 +14,7 @@ def convert_pdf_to_json():
     file.save(file_path)
     
     try:
-        result = subprocess.run(["python", "/app/pdf_table_to_json.py", file_path], capture_output=True, text=True)
+        result = subprocess.run(["python", "/app/pdf_to_json.py", file_path], capture_output=True, text=True)
         if result.returncode != 0:
             return jsonify({"error": result.stderr}), 500
         
