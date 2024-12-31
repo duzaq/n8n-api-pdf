@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import subprocess
+import json  # Importe o módulo json aqui
 
 app = Flask(__name__)
 
@@ -13,11 +14,11 @@ def convert_pdf_to_json():
     file.save(file_path)
     
     try:
-        result = subprocess.run(["python", "/app/pdf_to_json.py", file_path], capture_output=True, text=True)
+        result = subprocess.run(["python", "/app/pdf_table_to_json.py", file_path], capture_output=True, text=True)
         if result.returncode != 0:
             return jsonify({"error": result.stderr}), 500
         
-        return jsonify({"json": json.loads(result.stdout)})
+        return jsonify({"json": json.loads(result.stdout)})  # Agora você pode usar json.loads()
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
