@@ -54,5 +54,8 @@ RUN pip install flask pdfplumber
 # Expõe a porta 5000
 EXPOSE 5000
 
+# Define a variável de ambiente FLASK_APP
+ENV FLASK_APP=app.py
+
 # Comando para rodar a aplicação
 CMD ["flask", "run", "--host=0.0.0.0"]
