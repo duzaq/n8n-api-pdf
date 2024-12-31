@@ -6,8 +6,9 @@ def pdf_table_to_json(pdf_path):
     # Extrair tabelas do PDF
     tables = camelot.read_pdf(pdf_path, pages='all')
     
-    # Lista para armazenar todas as transações
-    transacoes = []
+    # Listas para armazenar entradas e saídas
+    entradas = []
+    saidas = []
     
     # Processar cada tabela
     for table in tables:
@@ -25,11 +26,15 @@ def pdf_table_to_json(pdf_path):
                 "SALDO": df.iloc[i, 4],      # Acessa a quinta coluna
                 "CARTÃO": df.iloc[i, 5]      # Acessa a sexta coluna
             }
-            # Adicionar à lista de transações
-            transacoes.append(transacao)
+            
+            # Verificar se é uma entrada ou saída
+            if "-" in transacao["VALOR"]:
+                saidas.append(transacao)  # Adicionar à lista de saídas
+            else:
+                entradas.append(transacao)  # Adicionar à lista de entradas
     
-    # Retornar as transações em formato JSON
-    return json.dumps(transacoes, ensure_ascii=False)
+    # Retornar as listas de entradas e saídas em formato JSON
+    return json.dumps({"entradas": entradas, "saidas": saidas}, ensure_ascii=False)
 
 if __name__ == '__main__':
     # Verificar se o caminho do PDF foi passado como argumento
