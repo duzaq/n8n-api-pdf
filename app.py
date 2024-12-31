@@ -17,7 +17,7 @@ def convert_pdf_to_json():
         if result.returncode != 0:
             return jsonify({"error": result.stderr}), 500
         
-        return jsonify({"json": result.stdout})
+        return jsonify({"json": json.loads(result.stdout)})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
