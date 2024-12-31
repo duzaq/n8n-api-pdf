@@ -11,19 +11,19 @@ def pdf_table_to_json(pdf_path):
     
     # Processar cada tabela
     for table in tables:
-        # Converter a tabela para uma lista de dicionários
-        table_data = table.df.to_dict(orient='records')
+        # Converter a tabela para um DataFrame do Pandas
+        df = table.df
         
-        # Ignorar o cabeçalho (primeiro item) e processar as transações
-        for row in table_data:
+        # Ignorar o cabeçalho (primeira linha) e processar as transações
+        for i in range(1, len(df)):  # Começa da segunda linha (índice 1)
             # Criar o dicionário no formato desejado
             transacao = {
-                "DESCRIÇÃO": row["0"],
-                "DATA": row["1"],
-                "HORA": row["2"],
-                "VALOR": row["3"],
-                "SALDO": row["4"],
-                "CARTÃO": row["5"]
+                "DESCRIÇÃO": df.iloc[i, 0],  # Acessa a primeira coluna
+                "DATA": df.iloc[i, 1],       # Acessa a segunda coluna
+                "HORA": df.iloc[i, 2],       # Acessa a terceira coluna
+                "VALOR": df.iloc[i, 3],      # Acessa a quarta coluna
+                "SALDO": df.iloc[i, 4],      # Acessa a quinta coluna
+                "CARTÃO": df.iloc[i, 5]      # Acessa a sexta coluna
             }
             # Adicionar à lista de transações
             transacoes.append(transacao)
